@@ -26,9 +26,9 @@
   <script type="text/babel">
 
 const SB = {
-green: “#00704A”, darkGreen: “#1E3932”, lightGreen: “#D4E9E2”,
-gold: “#CBA258”, white: “#FFFFFF”, cream: “#F2EFE8”,
-gray: “#747474”, lightGray: “#EDEBE4”, black: “#1E1E1E”,
+green: "#00704A", darkGreen: "#1E3932", lightGreen: "#D4E9E2",
+gold: "#CBA258", white: "#FFFFFF", cream: "#F2EFE8",
+gray: "#747474", lightGray: "#EDEBE4", black: "#1E1E1E",
 };
 
 function generateSlots() {
@@ -42,39 +42,39 @@ return slots;
 }
 
 function fmtTime(h, m) {
-const ampm = h < 12 ? “AM” : “PM”;
+const ampm = h < 12 ? "AM" : "PM";
 const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
-return h12 + “:” + (m === 0 ? “00” : “30”) + “ “ + ampm;
+return h12 + ":" + (m === 0 ? "00" : "30") + " " + ampm;
 }
 
 function timeToDecimal(h, m) { return h + m / 60; }
 
 function parseTimeInput(str) {
 if (!str) return null;
-str = str.trim().toLowerCase().replace(/\s+/g, “”);
+str = str.trim().toLowerCase().replace(/\s+/g, "");
 let ampm = null;
-if (str.endsWith(“am”) || str.endsWith(“a”)) { ampm = “am”; str = str.replace(/(am|a)$/, “”); }
-else if (str.endsWith(“pm”) || str.endsWith(“p”)) { ampm = “pm”; str = str.replace(/(pm|p)$/, “”); }
+if (str.endsWith("am") || str.endsWith("a")) { ampm = "am"; str = str.replace(/(am|a)$/, ""); }
+else if (str.endsWith("pm") || str.endsWith("p")) { ampm = "pm"; str = str.replace(/(pm|p)$/, ""); }
 const parts = str.split(/[:.]/);
 let h = parseInt(parts[0]);
 const m = parts[1] ? parseInt(parts[1]) : 0;
 if (isNaN(h)) return null;
-if (ampm === “pm” && h !== 12) h += 12;
-if (ampm === “am” && h === 12) h = 0;
+if (ampm === "pm" && h !== 12) h += 12;
+if (ampm === "am" && h === 12) h = 0;
 if (ampm === null && h < 5) h += 12;
 return { h, m };
 }
 
 const TSD_CHART = [
-{ min: 0,   max: 24,  label: “0-1”,  hours: 0   },
-{ min: 24,  max: 39,  label: “1-2”,  hours: 1.5 },
-{ min: 39,  max: 54,  label: “2-3”,  hours: 2.5 },
-{ min: 54,  max: 68,  label: “3-4”,  hours: 3.5 },
-{ min: 68,  max: 83,  label: “4-5”,  hours: 4.5 },
-{ min: 83,  max: 98,  label: “5-6”,  hours: 5.5 },
-{ min: 98,  max: 124, label: “6-7”,  hours: 6.5 },
-{ min: 124, max: 154, label: “7-8”,  hours: 7.5 },
-{ min: 154, max: Infinity, label: “7-8+”, hours: 8 },
+{ min: 0,   max: 24,  label: "0-1",  hours: 0   },
+{ min: 24,  max: 39,  label: "1-2",  hours: 1.5 },
+{ min: 39,  max: 54,  label: "2-3",  hours: 2.5 },
+{ min: 54,  max: 68,  label: "3-4",  hours: 3.5 },
+{ min: 68,  max: 83,  label: "4-5",  hours: 4.5 },
+{ min: 83,  max: 98,  label: "5-6",  hours: 5.5 },
+{ min: 98,  max: 124, label: "6-7",  hours: 6.5 },
+{ min: 124, max: 154, label: "7-8",  hours: 7.5 },
+{ min: 154, max: Infinity, label: "7-8+", hours: 8 },
 ];
 
 function getTSDRow(t) {
@@ -84,22 +84,22 @@ return TSD_CHART.find(r => t >= r.min && t < r.max) || TSD_CHART[TSD_CHART.lengt
 const SLOTS = generateSlots();
 
 function SBLabel({ children, noBottom }) {
-return <div style={{ fontSize: 9, color: SB.darkGreen, textTransform: “uppercase”, letterSpacing: “0.18em”, fontWeight: 700, marginBottom: noBottom ? 0 : 7 }}>{children}</div>;
+return <div style={{ fontSize: 9, color: SB.darkGreen, textTransform: "uppercase", letterSpacing: "0.18em", fontWeight: 700, marginBottom: noBottom ? 0 : 7 }}>{children}</div>;
 }
 function STH({ children, white, green }) {
-return <div style={{ fontSize: 9, color: white ? SB.white : green ? SB.darkGreen : SB.gray, textTransform: “uppercase”, letterSpacing: “0.1em”, padding: “8px 10px”, fontWeight: 700 }}>{children}</div>;
+return <div style={{ fontSize: 9, color: white ? SB.white : green ? SB.darkGreen : SB.gray, textTransform: "uppercase", letterSpacing: "0.1em", padding: "8px 10px", fontWeight: 700 }}>{children}</div>;
 }
 function SBPill({ label, value, color }) {
 return (
-<div style={{ background: SB.white, border: “1px solid #ddd”, borderRadius: 8, padding: “7px 10px”, flex: 1, textAlign: “center” }}>
-<div style={{ fontSize: 8, color: SB.gray, textTransform: “uppercase”, letterSpacing: “0.1em”, marginBottom: 3 }}>{label}</div>
+<div style={{ background: SB.white, border: "1px solid #ddd", borderRadius: 8, padding: "7px 10px", flex: 1, textAlign: "center" }}>
+<div style={{ fontSize: 8, color: SB.gray, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>{label}</div>
 <div style={{ fontSize: 13, fontWeight: 700, color }}>{value}</div>
 </div>
 );
 }
 function SBCalcRow({ label, value, color }) {
 return (
-<div style={{ display: “flex”, justifyContent: “space-between”, padding: “6px 0”, borderBottom: “1px solid #f0f0f0” }}>
+<div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #f0f0f0" }}>
 <span style={{ fontSize: 11, color: SB.gray }}>{label}</span>
 <span style={{ fontSize: 12, fontWeight: 600, color: color || SB.black }}>{value}</span>
 </div>
@@ -108,24 +108,24 @@ return (
 function SheetStat({ label, value }) {
 return (
 <div>
-<div style={{ fontSize: 8, color: SB.lightGreen, textTransform: “uppercase”, letterSpacing: “0.1em”, marginBottom: 2 }}>{label}</div>
+<div style={{ fontSize: 8, color: SB.lightGreen, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>{label}</div>
 <div style={{ fontSize: 13, fontWeight: 700, color: SB.white }}>{value}</div>
 </div>
 );
 }
 
 function App() {
-const [view, setView] = React.useState(“manager”);
-const [planned, setPlanned] = React.useState(””);
-const [scheduled, setScheduled] = React.useState(””);
-const [dayLabel, setDayLabel] = React.useState(””);
-const [projectedDailyTSD, setProjectedDailyTSD] = React.useState(””);
-const [windows, setWindows] = React.useState([{ start: “”, end: “” }]);
-const [projectedTSD, setProjectedTSD] = React.useState(Array(SLOTS.length).fill(””));
-const [actualTSD, setActualTSD] = React.useState(Array(SLOTS.length).fill(””));
+const [view, setView] = React.useState("manager");
+const [planned, setPlanned] = React.useState("");
+const [scheduled, setScheduled] = React.useState("");
+const [dayLabel, setDayLabel] = React.useState("");
+const [projectedDailyTSD, setProjectedDailyTSD] = React.useState("");
+const [windows, setWindows] = React.useState([{ start: "", end: "" }]);
+const [projectedTSD, setProjectedTSD] = React.useState(Array(SLOTS.length).fill(""));
+const [actualTSD, setActualTSD] = React.useState(Array(SLOTS.length).fill(""));
 const [published, setPublished] = React.useState(false);
 const [exporting, setExporting] = React.useState(false);
-const [checkInTimes, setCheckInTimes] = React.useState([“Before Peak”, “After Peak”, “2:00 PM”, “4:00 PM”]);
+const [checkInTimes, setCheckInTimes] = React.useState(["Before Peak", "After Peak", "2:00 PM", "4:00 PM"]);
 
 const plannedN   = parseFloat(planned) || 0;
 const scheduledN = parseFloat(scheduled) || 0;
@@ -145,17 +145,17 @@ const lastWindowEnd    = parsedWindows.length > 0 ? Math.max(...parsedWindows.ma
 
 function getSlotZone(slot) {
 const t = timeToDecimal(slot.hour, slot.min);
-if (firstWindowStart === null) return “none”;
-if (t < firstWindowStart) return “before”;
-if (parsedWindows.some(w => t >= timeToDecimal(w.sh, w.sm) && t <= timeToDecimal(w.eh, w.em))) return “inside”;
-return “carry”;
+if (firstWindowStart === null) return "none";
+if (t < firstWindowStart) return "before";
+if (parsedWindows.some(w => t >= timeToDecimal(w.sh, w.sm) && t <= timeToDecimal(w.eh, w.em))) return "inside";
+return "carry";
 }
 
-const insideSlotCount = React.useMemo(() => SLOTS.filter(s => getSlotZone(s) === “inside”).length, [parsedWindows]);
+const insideSlotCount = React.useMemo(() => SLOTS.filter(s => getSlotZone(s) === "inside").length, [parsedWindows]);
 const betweenSlotCount = React.useMemo(() => SLOTS.filter(s => {
 const t = timeToDecimal(s.hour, s.min);
 if (!firstWindowStart || !lastWindowEnd) return false;
-return t > firstWindowStart && t < lastWindowEnd && getSlotZone(s) === “carry”;
+return t > firstWindowStart && t < lastWindowEnd && getSlotZone(s) === "carry";
 }).length, [parsedWindows]);
 
 const totalEarnedAdj = insideAdj * insideSlotCount;
@@ -166,9 +166,9 @@ let cumulative = 0;
 return SLOTS.map(slot => {
 const zone = getSlotZone(slot);
 const t = timeToDecimal(slot.hour, slot.min);
-if (zone === “before” || zone === “none”) return 0;
-if (zone === “inside”) { cumulative += insideAdj; return cumulative; }
-if (zone === “carry”) {
+if (zone === "before" || zone === "none") return 0;
+if (zone === "inside") { cumulative += insideAdj; return cumulative; }
+if (zone === "carry") {
 if (lastWindowEnd !== null && t <= lastWindowEnd) { cumulative += betweenAdj; return cumulative; }
 return totalEarnedAdj;
 }
@@ -179,23 +179,23 @@ return 0;
 const targets = React.useMemo(() =>
 SLOTS.map((slot, i) => {
 const base = parseFloat(projectedTSD[i]);
-if (isNaN(base) || projectedTSD[i] === “”) return null;
+if (isNaN(base) || projectedTSD[i] === "") return null;
 return Math.round(base + slotAdjustments[i]);
 }), [projectedTSD, slotAdjustments]);
 
 const hasTargets = targets.some(t => t !== null);
-const windowDebug = parsedWindows.map(w => fmtTime(w.sh, w.sm) + “-” + fmtTime(w.eh, w.em)).join(”, “);
+const windowDebug = parsedWindows.map(w => fmtTime(w.sh, w.sm) + "-" + fmtTime(w.eh, w.em)).join(", ");
 
 const updateProjected = (i, val) => setProjectedTSD(prev => { const n = [...prev]; n[i] = val; return n; });
 const updateActual    = (i, val) => setActualTSD(prev => { const n = [...prev]; n[i] = val; return n; });
-const addWindow    = () => setWindows(prev => [...prev, { start: “”, end: “” }]);
+const addWindow    = () => setWindows(prev => [...prev, { start: "", end: "" }]);
 const removeWindow = (i) => setWindows(prev => prev.filter((_, idx) => idx !== i));
 const updateWindow = (i, field, val) => setWindows(prev => { const n = [...prev]; n[i] = { ...n[i], [field]: val }; return n; });
 
 const handlePaste = (e) => {
 const raw = e.target.value;
-const cleaned = raw.replace(/running total/i, “”).trim();
-const nums = cleaned.split(/[\t,\s]+/).map(v => v.trim()).filter(v => v !== “” && !isNaN(v));
+const cleaned = raw.replace(/running total/i, "").trim();
+const nums = cleaned.split(/[\t,\s]+/).map(v => v.trim()).filter(v => v !== "" && !isNaN(v));
 if (nums.length > 0) {
 setProjectedTSD(prev => {
 const next = [...prev];
@@ -205,7 +205,7 @@ return next;
 }
 };
 
-const lastActualIdx  = React.useMemo(() => actualTSD.reduce((acc, v, i) => v !== “” ? i : acc, -1), [actualTSD]);
+const lastActualIdx  = React.useMemo(() => actualTSD.reduce((acc, v, i) => v !== "" ? i : acc, -1), [actualTSD]);
 const currentActual  = lastActualIdx >= 0 ? (parseFloat(actualTSD[lastActualIdx]) || 0) : null;
 const currentTarget  = lastActualIdx >= 0 ? targets[lastActualIdx] : null;
 const gap            = currentActual !== null && currentTarget !== null ? currentActual - currentTarget : null;
@@ -213,38 +213,38 @@ const tsdRowActual   = currentActual !== null ? getTSDRow(currentActual) : null;
 const justifiedHours = tsdRowActual ? tsdRowActual.hours : 0;
 const hoursToCut     = Math.max(0, extraHours - justifiedHours);
 
-const paceStatus = gap === null ? “neutral” : gap >= 0 ? “good” : gap >= -10 ? “close” : “behind”;
+const paceStatus = gap === null ? "neutral" : gap >= 0 ? "good" : gap >= -10 ? "close" : "behind";
 const paceMap = {
-neutral: { color: SB.gray,   bg: SB.lightGray, border: “#ccc”,     label: “Enter actuals to track” },
-good:    { color: SB.green,  bg: “#e6f4ee”,    border: SB.green,   label: “On Pace - Keep the crew!” },
-close:   { color: SB.gold,   bg: “#fdf5e6”,    border: SB.gold,    label: “Close - Watch It” },
-behind:  { color: “#c0392b”, bg: “#fde8e6”,    border: “#c0392b”,  label: “Behind - Cut Hours” },
+neutral: { color: SB.gray,   bg: SB.lightGray, border: "#ccc",     label: "Enter actuals to track" },
+good:    { color: SB.green,  bg: "#e6f4ee",    border: SB.green,   label: "On Pace - Keep the crew!" },
+close:   { color: SB.gold,   bg: "#fdf5e6",    border: SB.gold,    label: "Close - Watch It" },
+behind:  { color: "#c0392b", bg: "#fde8e6",    border: "#c0392b",  label: "Behind - Cut Hours" },
 };
 const pace = paceMap[paceStatus];
 
 function zoneColor(zone) {
-if (zone === “inside”) return SB.green;
-if (zone === “carry”) return SB.gold;
+if (zone === "inside") return SB.green;
+if (zone === "carry") return SB.gold;
 return SB.gray;
 }
 
 const inp = {
-display: “block”, width: “100%”, boxSizing: “border-box”,
-background: SB.white, border: “1px solid #ccc”, borderRadius: 8,
-color: SB.black, fontFamily: “Georgia, serif”, fontSize: 15,
-padding: “10px 12px”, outline: “none”,
+display: "block", width: "100%", boxSizing: "border-box",
+background: SB.white, border: "1px solid #ccc", borderRadius: 8,
+color: SB.black, fontFamily: "Georgia, serif", fontSize: 15,
+padding: "10px 12px", outline: "none",
 };
 const inlineInp = {
-display: “block”, width: “100%”, boxSizing: “border-box”,
-background: “transparent”, border: “none”, borderBottom: “1px solid #ccc”,
-color: SB.black, fontFamily: “Georgia, serif”, fontSize: 14,
-padding: “3px 4px”, outline: “none”,
+display: "block", width: "100%", boxSizing: "border-box",
+background: "transparent", border: "none", borderBottom: "1px solid #ccc",
+color: SB.black, fontFamily: "Georgia, serif", fontSize: 14,
+padding: "3px 4px", outline: "none",
 };
 
-const TABS = [[“manager”, “Setup”], [“screenshot”, “Sheet”], [“ssv”, “SSV”]];
+const TABS = [["manager", "Setup"], ["screenshot", "Sheet"], ["ssv", "SSV"]];
 
 return (
-<div style={{ minHeight: “100vh”, background: SB.cream, color: SB.black, fontFamily: “Georgia, serif” }}>
+<div style={{ minHeight: "100vh", background: SB.cream, color: SB.black, fontFamily: "Georgia, serif" }}>
 
 ```
   {/* Header */}
@@ -552,7 +552,7 @@ return (
 );
 }
 
-ReactDOM.createRoot(document.getElementById(“root”)).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
 
 </body>
